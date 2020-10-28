@@ -3,6 +3,7 @@ class BooksController < ApplicationController
     def index
         @books = Book.all.order("id DESC").includes(:user)
         @new_book = Book.new
+        @user = current_user
     end
 
     def show
@@ -10,7 +11,7 @@ class BooksController < ApplicationController
         @new_book = Book.new
         @new_comment = BookComment.new
         @comments = @book.book_comments.includes(:user)
-
+        @user = @book.user
     end
 
     def create

@@ -2,6 +2,7 @@ class UsersController < ApplicationController
     def index
         @users=User.all.order("id DESC")
         @new_book = Book.new
+        @user = current_user
     end
 
     def show
