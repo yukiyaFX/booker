@@ -19,6 +19,20 @@
                 <td><a href="/users/#{<%= @book.user.id %>}"><%= attachment_image_tag @book.user, :profile_image, :fill, class: "img-circle pull-left profile-thumb", fallback: "no_image.jpg",size:"40x40"%></a></td>
                 <td><%= link_to "#{@book.title}", book_path(@book) %></td>
                 <td><%= @book.body %></td>
+                <%if @book.favorites.find_by(user_id: current_user.id).present? %>
+                  <%= link_to favorite_path(@book.favorites.find_by(user_id: current_user.id)), method: :delete do %>
+                    <td><i class="far fa-heart like-btn" ></i><%= @book.favorites.count %></td>
+                  <% end %>
+                <% else %>
+                  <%= link_to favorites_path(user_id: current_user.id,book_id: @book.id), method: :post do %>
+                    <td><i class="far fa-heart unlike-btn" ></i><%= @book.favorites.count %></td>
+                  <% end %>
+                <% end %>
+                <%if @books.book_comments.present? %>
+                  <td>コメント数:<%= book.book_comments.count %></td>
+                <% else %>
+                  <td>コメント数:0</td>
+                <% end %>
                 <% if @book.user_id == current_user.id %>
                   <td><%= link_to "Edit", edit_book_path(@book), class:"btn-sm btn-success" %></td>
                   <td><%= link_to "Destroy",book_path(@book),method: :delete ,class:"btn-sm btn-danger" %></td>
@@ -26,6 +40,14 @@
               <% end %>
             </tr>
         </tbody>
-    </table>
+      </table>
+      <%= form_with model:@book_comment, local:true do |f|%>
+        <div class="row">
+          <%= f.label :body,"Comments" %>
+          <%= f.text_area :body,class: "col-xs-12"%>
+        </div>
+        <%= f.hidden_field :body_id, value: @book.id %>
+      <% end %>
+    </div>
   </div>
 </div>
