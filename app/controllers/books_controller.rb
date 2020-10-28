@@ -3,13 +3,14 @@ class BooksController < ApplicationController
     def index
         @books = Book.all.order("id DESC").includes(:user)
         @new_book = Book.new
-        @comment = @books.comments.count
     end
 
     def show
         @book = Book.find(params[:id])
         @new_book = Book.new
-        @comment = @book.comment
+        @new_comment = BookComment.new
+        @comments = @book.book_comments.includes(:user)
+
     end
 
     def create

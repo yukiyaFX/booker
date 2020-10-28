@@ -6,7 +6,7 @@ class FavoritesController < ApplicationController
     def create
         @favorite = Favorite.new(favorite_params)
         if @favorite.save
-          redirect_to book_path(@favorite.book)
+          redirect_back(fallback_location: root_path)
         else
           render 'index'
         end
@@ -16,15 +16,13 @@ class FavoritesController < ApplicationController
      def destroy
          @favorite = Favorite.find(params[:id])
          if @favorite.destroy
-             redirect_to books_path
+					redirect_back(fallback_location: root_path)
          else
-             redirect_to books_path
+					redirect_back(fallback_location: root_path)
          end
      end
-     
      private
-    def private_params
-        pamrams.require(:favorite).permit(:book_id).merge(user_id: current_user.id)
+    def favorite_params
+        params.require(:favorite).permit(:book_id).merge(user_id: current_user.id)
     end
-    
 end

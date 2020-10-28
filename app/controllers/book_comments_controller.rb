@@ -4,8 +4,8 @@ class BookCommentsController < ApplicationController
     end
 
     def create
-        @comments = Book_comment.new(comment_params)
-        if @comments.save
+        @comment = BookComment.new(comment_params)
+        if @comment.save
           redirect_to book_path(@comment.book), notice: "Object successfully created"
         else
           render :index
@@ -13,11 +13,11 @@ class BookCommentsController < ApplicationController
     end
 
     def edit
-        @comment = Book_comment.find(params[:id])
+        @comment = BookComment.find(params[:id])
     end
 
     def update
-        @comment = Book_comment.find(params[:id])
+        @comment = BookComment.find(params[:id])
         if @comment.update(comment_params)
           redirect_to book_path(@comment.book), notice: "Object was successfully updated"
         else
@@ -26,7 +26,7 @@ class BookCommentsController < ApplicationController
     end
 
     def destroy
-        @comment = Book_comment.find(params[:id])
+        @comment = BookComment.find(params[:id])
         if @comment.destroy
             redirect_to book_path(@comment.book), notice:'Object was successfully deleted.'
         else
